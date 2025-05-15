@@ -4,3 +4,5 @@
 ^src/libs/libtopotoolbox/\.git$
 ^src/libs/libtopotoolbox/\.github$
 ^src/libs/libtopotoolbox/\.clang-format$
+^.*\.Rproj$
+^\.Rproj\.user$
