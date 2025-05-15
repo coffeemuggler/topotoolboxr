@@ -2,18 +2,30 @@
 % Please edit documentation in R/gradient8.R
 \name{gradient8}
 \alias{gradient8}
-\title{wrap_gradient8}
+\title{Calculate the gradien}
 \usage{
-gradient8(dem, use_mp = 0)
+gradient8(GRIDobj, use_mp = FALSE)
 }
 \arguments{
-\item{dem}{Input of type Spatrast from Terra}
+\item{GRIDobj}{\code{SpatRaster} with DEM}
 
 \item{use_mp}{Future feature that will allow to parallelize the code}
 }
 \value{
-A Spatrast
+Returns a \code{GRIDobj} with gradient results
 }
 \description{
-This will make the Gradient8 funktion available to R from the libtotopotoolbox subdirectory
+This will make the Gradient8 function will do something
+}
+\examples{
+## load example data set
+data(srtm_bigtujunga30m_utm11)
+DEM <- terra::unwrap(srtm_bigtujunga30m_utm11)
+
+## calculate gradient
+G <- gradient8(GRIDobj = DEM)
+
+## plot gradient
+plot_GRIDobj(GRIDobj = G, col = grey.colors(200))
+
 }

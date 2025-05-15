@@ -1,23 +1,54 @@
-#' wrap_gradient8
+#' Calculate the gradien
 #'
-#' This will make the Gradient8 funktion available to R from the libtotopotoolbox subdirectory
+#' This will make the Gradient8 function will do something
 #' 
-#' @param dem Input of type Spatrast from Terra
+#' @param GRIDobj \code{SpatRaster} with DEM
+#' 
 #' @param use_mp Future feature that will allow to parallelize the code
 #'
-#' @import terra
-#'
-#' @return A Spatrast
-#' @export
+#' @return Returns a \code{GRIDobj} with gradient results
+#' 
+#' @examples
+#' ## load example data set
+#' data(srtm_bigtujunga30m_utm11)
+#' DEM <- terra::unwrap(srtm_bigtujunga30m_utm11)
+#' 
+#' ## calculate gradient
+#' G <- gradient8(GRIDobj = DEM)
+#' 
+#' ## plot gradient
+#' plot_GRIDobj(GRIDobj = G, col = grey.colors(200))
+#' 
+#' @export gradient8
 
-gradient8 <- function(dem,use_mp=0) {
+gradient8 <- function(
     
-    d <- get_grid_data(dem) # Extract input data
-    output <- single(length(d$z)) #create output array
-    result <- .C("wrap_gradient8",outputR=as.single(output),as.single(d$z),as.single(d$cellsize),as.integer(use_mp), as.integer(d$dims))$outputR
-
-    G <- dem # copy Spatrast
-    terra::values(G) <- result #update Spatrast values
+  GRIDobj, 
+  use_mp = FALSE
+  
+) {
+  
+  ## check/set parallel option
+  use_mp <- as.numeric(use_mp)
+  
+  if(use_mp == 0) {
     
-    return(G)
+    ## create output array
+    g <- single(length(terra::values(GRIDobj))) 
+    
+    ## calculate and assign
+    terra::values(GRIDobj) <- .C(
+      "wrap_gradient8",
+      outputR=as.single(g),
+      as.single(terra::values(GRIDobj, mat = FALSE)),
+      as.single(terra::res(GRIDobj)[1]),
+      as.integer(use_mp), 
+      as.integer(dim(GRIDobj)[2:1]))$outputR
+  } else {
+    
+    stop("use_mp option is not supported!")
+  }
+  
+  ## return output
+  return(GRIDobj)
 }
