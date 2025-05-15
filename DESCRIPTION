@@ -1,17 +1,22 @@
 Package: topotoolboxr
 Version: 0.0.1
+Date: t.b.d.
 Title: R Interface to TopoToolbox
 Authors@R: c(person("Domenic", "Bartha", role = c("cre","aut"),
                      email = "bartha1@uni-potsdam.de"))
 Maintainer: Domenic Bartha <bartha1@uni-potsdam.de>
 Depends: R (>= 4.1.0),
-	 terra
 License: GPL-3 + file LICENSE
-Description: Topotoolboxr provides an R interface to TopoToolbox, a set of tools for digital terrain analysis and landscape evolution modeling.
+Description: Topotoolboxr provides an R interface to TopoToolbox, 
+    a set of tools for digital terrain analysis and landscape evolution 
+    modeling.
+URL: https://github.com/TopoToolbox/topotoolboxr, https://github.com/TopoToolbox
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/TopoToolbox/topotoolboxr, https://github.com/TopoToolbox
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
+Imports:
+    terra
 Suggests: 
-    testthat (>= 3.1.5)
+    testthat (>= 3.1.5),
+    plotly
 Config/testthat/edition: 3
