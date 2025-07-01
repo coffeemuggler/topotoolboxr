@@ -4,6 +4,8 @@
 .httr-oauth
 .DS_Store
 .quarto
+.RData
+topotoolbox.Rproj
 */.DS_Store
 *.swp
 .Rbuildignore
