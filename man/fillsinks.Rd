@@ -52,6 +52,6 @@ DEM <- terra::unwrap(srtm_bigtujunga30m_utm11)
 DEM_filled <- fillsinks(GRIDobj = DEM)
 
 ## plot difference
-plot_GRIDobj(DEM_filled - DEM, col = rev(heat.colors(200)))
+plot_GRIDobj(DEM_filled - DEM)
 
 }

@@ -42,7 +42,7 @@
 #' DEM_filled <- fillsinks(GRIDobj = DEM)
 #' 
 #' ## plot difference
-#' plot_GRIDobj(DEM_filled - DEM, col = rev(heat.colors(200)))
+#' plot_GRIDobj(DEM_filled - DEM)
 #' 
 #' @export fillsinks
 
@@ -96,7 +96,7 @@ fillsinks <- function(
   ## Case 1: no maxdepth value given
   if(md == FALSE) {
     
-    ## create boundary matrix and NA-corrected matrix
+    ## create boundary GRIDobj
     if (missing(B) == TRUE) {
       B <- matrix(data = 0, nrow = dim(GRIDobj)[2], ncol = dim(GRIDobj)[1])
       B[is.na(terra::values(GRIDobj))] <- 1
@@ -104,13 +104,14 @@ fillsinks <- function(
       B[,1] <- 1
       B[nrow(B),] <- 1
       B[,ncol(B)] <- 1
+      B <- rast(t(B), extent = GRIDobj)
     }
     
     ## fill sinks
-    z_fill <- .C("wrap_fillsink",
-                 outputR=as.single(z_0),
+    z_fill <- .C("wrap_fillsinks",
+                 outputR = as.single(z_0),
                  as.single(z),
-                 as.integer(B),
+                 as.integer(values(B)),
                  as.integer(dim(GRIDobj)[2:1]))$outputR
     
     ## re-introduce NA-values
