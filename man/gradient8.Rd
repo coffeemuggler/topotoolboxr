@@ -26,6 +26,6 @@ DEM <- terra::unwrap(srtm_bigtujunga30m_utm11)
 G <- gradient8(GRIDobj = DEM)
 
 ## plot gradient
-plot_GRIDobj(GRIDobj = G, col = grey.colors(200))
+plot_GRIDobj(GRIDobj = G, col = "grays")
 
 }
