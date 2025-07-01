@@ -3,6 +3,7 @@
 #include <R.h>
 #include <Rinternals.h>
 #include <R_ext/Rdynload.h>
+#include "topotoolbox.h"
 #include "topotoolboxr.h"
 
 static const R_CMethodDef cMethods[] = {
@@ -10,13 +11,10 @@ static const R_CMethodDef cMethods[] = {
    {NULL,NULL,0,NULL},
 };
 
-void R_init_topotoolboxr(DllInfo *info) {
- /* Register the .C and .Call routines.
-    No .Fortran() or .External() routines,
-    so pass those arrays as NULL.
-  */
-  R_registerRoutines(info,
-                    cMethods, NULL,
-                    NULL, NULL);
+void R_init_topotoolbox(DllInfo *info) {
+
+  R_registerRoutines(info, cMethods, NULL, NULL, NULL);
   R_useDynamicSymbols(info, TRUE);
 }
+
+

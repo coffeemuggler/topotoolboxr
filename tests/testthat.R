@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(topotoolboxr)
+library(topotoolbox)
 
-test_check("topotoolboxr")
+test_check("topotoolbox")

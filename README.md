@@ -1,4 +1,4 @@
-# topotoolboxr
+# topotoolbox
 
 Developement of an R interface to TopoToolbox
 

@@ -1,8 +1,10 @@
 ## usethis namespace: start
-#' @useDynLib topotoolboxr, .registration = TRUE, .fixes = "C_"
+#' @useDynLib topotoolbox, .registration = TRUE, .fixes = "C_"
 #' 
+#' @import colorspace
 #' @importFrom terra res values crds crs ext rast project aggregate
-#' @importFrom grDevices heat.colors topo.colors terrain.colors
+#' @importFrom grDevices heat.colors topo.colors terrain.colors col2rgb
+#' @importFrom OpenImageR convolution
 #' 
 ## usethis namespace: end
 
