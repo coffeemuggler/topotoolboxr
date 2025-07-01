@@ -10,15 +10,22 @@
 #'    
 #' 2) \code{exa}, exaggeration factor for the elevation, which is useful to 
 #'    improve visibility of topography. Default is \code{1} (no exaggeration).
-#' 
+#'    
+#' Available colourspace keywords can be seen on the [HCL palettes website](https://colorspace.r-forge.r-project.org/articles/hcl_palettes.html) 
+#' , such as \code{"blues3"}, \code{"BuGn"}, \code{"Viridis"},
+#' \code{"Plasma"}, \code{"Batlow"}. 
+#'    
 #' @param GRIDobj \code{GRIDobj} object to plot
 #'
 #' @param interactive \code{Logical} value, option to create an interactive 
 #' plot via \code{plotly} instead of a static map. Default is \code{FALSE}. 
-#' The optiona is only useful if the dataset is a DEM, hence the z-values
+#' The option is only useful if the dataset is a DEM, hence the z-values
 #' are elevation.
 #' 
-#' @param \dots Further arguments passed to the plot function
+#' @param \dots Further arguments passed to the plot function. These can be 
+#' keywords for the colour palette (e.g. \code{col = "inferno"}) and number of 
+#' colours (e.g. \code{n = 10}). The default colour palette is 256 colours  
+#' from \code{"terrain"}. See details.
 #' 
 #' @return Graphic output of a spectrogram.
 #' 
@@ -37,7 +44,7 @@
 #' #              interactive = TRUE, agg = 10, exa = 2)
 #' 
 #' ## plot data set in customised colour
-#' plot_GRIDobj(GRIDobj = srtm_bigtujunga30m_utm11, col = topo.colors(200))
+#' plot_GRIDobj(GRIDobj = srtm_bigtujunga30m_utm11, col = "viridis")
 #' 
 #' ## plot data set without legend
 #' plot_GRIDobj(GRIDobj = srtm_bigtujunga30m_utm11, legend = FALSE)
@@ -61,12 +68,22 @@ plot_GRIDobj <- function(
   ## extract extra arguments
   dots <- list(...)
   
+  ## check/set number of colours n
+  if ("n" %in% names(dots)) {
+    exa <- dots$n
+  } else {
+    n <- 256
+  }
+  
   ## check/set colour scale
   if ("col" %in% names(dots)) {
     col <- dots$col
   } else {
-    col <- grDevices::terrain.colors(200)
+    col <- "terrain"
   }
+  
+  ## create plot colour palette
+  col_plt <- colorspace::sequential_hcl(n = n, palette = col)
 
   ## check/set exa
   if ("exa" %in% names(dots)) {
@@ -132,7 +149,7 @@ plot_GRIDobj <- function(
   if(interactive == FALSE) {
     
     ## plot terra raster
-    terra::plot(GRIDobj, xlim = xlim, ylim = ylim, zlim = zlim, col = col,
+    terra::plot(GRIDobj, xlim = xlim, ylim = ylim, zlim = zlim, col = col_plt,
                 legend = legend, axes = axes, ann = ann, add = add)
     
   } else {
@@ -168,7 +185,7 @@ plot_GRIDobj <- function(
                    z = matrix(terra::values(GRIDobj),
                               nrow = dim(GRIDobj)[1], 
                               byrow = TRUE),
-                   colors = col)
+                   colors = col_plt)
     fig <- plotly::add_surface(fig)
     plotly::layout(fig, 
                    scene = list(aspectmode = "manual", 

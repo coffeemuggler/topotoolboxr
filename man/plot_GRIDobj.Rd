@@ -11,10 +11,13 @@ plot_GRIDobj(GRIDobj, interactive = FALSE, ...)
 
 \item{interactive}{\code{Logical} value, option to create an interactive 
 plot via \code{plotly} instead of a static map. Default is \code{FALSE}. 
-The optiona is only useful if the dataset is a DEM, hence the z-values
+The option is only useful if the dataset is a DEM, hence the z-values
 are elevation.}
 
-\item{\dots}{Further arguments passed to the plot function}
+\item{\dots}{Further arguments passed to the plot function. These can be 
+keywords for the colour palette (e.g. \code{col = "inferno"}) and number of 
+colours (e.g. \code{n = 10}). The default colour palette is 256 colours  
+from \code{"terrain"}. See details.}
 }
 \value{
 Graphic output of a spectrogram.
@@ -31,6 +34,10 @@ For the interactive case, the following additional arguments may be useful:
    
 2) \code{exa}, exaggeration factor for the elevation, which is useful to 
    improve visibility of topography. Default is \code{1} (no exaggeration).
+   
+Available colourspace keywords can be seen on the [HCL palettes website](https://colorspace.r-forge.r-project.org/articles/hcl_palettes.html) 
+, such as \code{"blues3"}, \code{"BuGn"}, \code{"Viridis"},
+\code{"Plasma"}, \code{"Batlow"}.
 }
 \examples{
 
@@ -47,7 +54,7 @@ plot_GRIDobj(GRIDobj = srtm_bigtujunga30m_utm11)
 #              interactive = TRUE, agg = 10, exa = 2)
 
 ## plot data set in customised colour
-plot_GRIDobj(GRIDobj = srtm_bigtujunga30m_utm11, col = topo.colors(200))
+plot_GRIDobj(GRIDobj = srtm_bigtujunga30m_utm11, col = "viridis")
 
 ## plot data set without legend
 plot_GRIDobj(GRIDobj = srtm_bigtujunga30m_utm11, legend = FALSE)
