@@ -84,6 +84,9 @@
 #' one, hence the grid must have the the same resolution in x- and y-direction.
 #' Default value if \code{1}.
 #' 
+#' @param ext \code{Extent} object, definition of marginal coordinates (in 
+#' the form x0,x1,y0,y1), usually extracted by \code{terra::ext()}.
+#' 
 #' @param \dots Further arguments passed to the function, see details. 
 #' 
 #' @return Returns a \code{SpatRaster} object 
@@ -92,7 +95,7 @@
 #' 
 #' ## Example 1: Load a DEM and plot it
 #' 
-#' tif <- paste0(system.file("extdata", package="topotoolboxr"), "/", 
+#' tif <- paste0(system.file("extdata", package="topotoolbox"), "/", 
 #'               "srtm_bigtujunga30m_utm11.tif")
 #' 
 #' DEM <- GRIDobj(file = tif)
@@ -131,6 +134,8 @@
 #'  DEM <- GRIDobj(Z = Z)
 #'  terra::crs(DEM) <- "+proj=utm +zone=60 +south +datum=WGS84"
 #' 
+#' @author Michael Dietze, Wolfgang Schwanghart
+#' 
 #' @export GRIDobj
 
 GRIDobj <- function(
@@ -142,6 +147,7 @@ GRIDobj <- function(
   obj, 
   R, 
   cs = 1,
+  ext,
   ...
 
 ) {
@@ -181,10 +187,14 @@ GRIDobj <- function(
   if(missing(file) == TRUE & missing(obj) == TRUE) {
     ## Case 1: create GRIDobj from X, Y, Z
     
+    ## ext/set extent object
+    if(missing(ext) == TRUE) {
+      ext <- c(min(X) - cs, max(X),min(Y) - cs, max(Y))
+    }
+    
     ## create SpatRaster 
     DEM <- try(terra::rast(nlyrs = 1,
-                           xmin = min(X) - cs, xmax = max(X),
-                           ymin = min(Y) - cs, ymax = max(Y),
+                           ext = ext,
                            resolution = c(cs, cs), 
                            vals = Z,
                            crs = terra::crs("")), silent = TRUE)

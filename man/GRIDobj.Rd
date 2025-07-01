@@ -4,7 +4,7 @@
 \alias{GRIDobj}
 \title{Create instance of a GRIDobj}
 \usage{
-GRIDobj(Z = NULL, X, Y, file, obj, R, cs = 1, ...)
+GRIDobj(Z = NULL, X, Y, file, obj, R, cs = 1, ext, ...)
 }
 \arguments{
 \item{Z}{\code{Numeric} matrix with z-coordinates. If set to \code{NULL}, 
@@ -32,6 +32,9 @@ in PROJ-string notation. See details and examples for further information.}
 needed when merely \code{Z} is provided. Note that cs is a vector of length 
 one, hence the grid must have the the same resolution in x- and y-direction.
 Default value if \code{1}.}
+
+\item{ext}{\code{Extent} object, definition of marginal coordinates (in 
+the form x0,x1,y0,y1), usually extracted by \code{terra::ext()}.}
 
 \item{\dots}{Further arguments passed to the function, see details.}
 }
@@ -102,7 +105,7 @@ or STREAMobj class. The second input argument Z is written to DEM.Z.
 
 ## Example 1: Load a DEM and plot it
 
-tif <- paste0(system.file("extdata", package="topotoolboxr"), "/", 
+tif <- paste0(system.file("extdata", package="topotoolbox"), "/", 
               "srtm_bigtujunga30m_utm11.tif")
 
 DEM <- GRIDobj(file = tif)
@@ -141,4 +144,7 @@ DEM <- GRIDobj(Z = Z, R = "+proj=utm +zone=60 +south +datum=WGS84")
  DEM <- GRIDobj(Z = Z)
  terra::crs(DEM) <- "+proj=utm +zone=60 +south +datum=WGS84"
 
+}
+\author{
+Michael Dietze, Wolfgang Schwanghart
 }
